@@ -12,32 +12,30 @@ export class PokemonListComponent {
 
   pokemonList?: Paginate<Pokemon>;
 
-// Function to load all pokemon pages recursively
+
+
+
 loadAllPokemonPages(page: number = 1) {
-  // Check if we haven't reached the last page
   if (!this.pokemonList || this.pokemonList.last_page >= page) {
-    // Fetch the next page
     this.apiService.requestApi('/pokemon', 'GET', {page: page}).then((pokemons: Paginate<Pokemon>) => {
-      // Add new Pokémon to the list
       if (!this.pokemonList) {
         this.pokemonList = pokemons;
       } else {
         let datas = this.pokemonList.data.concat(pokemons.data);
         this.pokemonList = {...pokemons, data: datas};
       }
-
-      // Recursively call the function to load the next page
       this.loadAllPokemonPages(page + 1);
     });
   }
 }
 
-// Call this method in the constructor to load all pages
 constructor(
   public apiService: ApiService,
 ) {
   this.loadAllPokemonPages();
 }
+
+
 
 
   // Fonction pour charger la page suivante des pokemons
