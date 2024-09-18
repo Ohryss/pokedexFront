@@ -1,6 +1,8 @@
 <h1 class="text-3xl font-bold underline text-rose-600">Liste des pokemons</h1>
 <section class="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
   @for (pokemon of pokemonList?.data; track pokemon.id){
-    <app-pokemon-card [pokemon]="pokemon"></app-pokemon-card>
+    <a [routerLink]="['/pokemon/'+pokemon.id]">
+      <app-pokemon-card [pokemon]="pokemon"></app-pokemon-card>
+    </a>
   }
 </section>
