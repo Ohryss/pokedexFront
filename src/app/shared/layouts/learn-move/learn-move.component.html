@@ -1,0 +1,13 @@
+<div *ngIf="learnMoves && learnMoves.length > 0; else noMoves">
+    <h3>Learned Moves:</h3>
+    <ul>
+      <li *ngFor="let move of learnMoves">
+        <strong>{{ getTranslation(move.move, 'en') }}</strong> - {{ move.move.description }} (Level: {{ move.level }})
+      </li>
+    </ul>
+  </div>
+  
+  <ng-template #noMoves>
+    <p>No moves available.</p>
+  </ng-template>
+  

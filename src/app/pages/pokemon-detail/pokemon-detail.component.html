@@ -1,0 +1,65 @@
+@if (pokemon){
+  <h1 class="flex items-center mb-6">
+    <a [routerLink]="['/']" class="btn btn-circle btn-primary mr-2"><-</a> 
+    {{pokemon.name}}
+  </h1>
+
+  <!-- Application du fond dynamique ici -->
+  <div class="flex items-center justify-center p-4 relative" [ngStyle]="{'background': getBackgroundStyle()}">
+    <img [src]="pokemon.default_variety.sprites?.artwork_url" [alt]="pokemon.name" class="w-full max-w-md">
+    
+    <div class="absolute top-0 left-0 p-4 flex flex-col gap-2">
+      @for (type of pokemon.default_variety.types; track type.id){
+        <img [src]="type.sprite_url" [alt]="type.name" class="h-6">
+      }
+    </div>
+  </div>
+
+  <div>
+    <p>Description: {{ pokemon.default_variety.description }}</p>
+  </div>
+
+  <div>
+    <p>Height: {{ pokemon.default_variety.height / 10 }} m</p>
+    <p>Weight: {{ pokemon.default_variety.weight / 10 }} kg</p>
+  </div>
+
+  <div>
+    <p>HP: {{ pokemon.default_variety.base_stat_hp }} </p>
+    <div class="stat-bar-container">
+      <div class="stat-bar hp-bar" [style.width.%]="(pokemon.default_variety.base_stat_hp / 255) * 100"></div>
+    </div>
+
+    <p>Atk: {{ pokemon.default_variety.base_stat_attack }} </p>
+    <div class="stat-bar-container">
+      <div class="stat-bar atk-bar" [style.width.%]="(pokemon.default_variety.base_stat_attack / 255) * 100"></div>
+    </div>
+
+    <p>Def: {{ pokemon.default_variety.base_stat_defense }} </p>
+    <div class="stat-bar-container">
+      <div class="stat-bar def-bar" [style.width.%]="(pokemon.default_variety.base_stat_defense / 255) * 100"></div>
+    </div>
+
+    <p>AtkSpe: {{ pokemon.default_variety.base_stat_special_attack }} </p>
+    <div class="stat-bar-container">
+      <div class="stat-bar atk-spe-bar" [style.width.%]="(pokemon.default_variety.base_stat_special_attack / 255) * 100"></div>
+    </div>
+
+    <p>DefSpe: {{ pokemon.default_variety.base_stat_special_defense }} </p>
+    <div class="stat-bar-container">
+      <div class="stat-bar def-spe-bar" [style.width.%]="(pokemon.default_variety.base_stat_special_defense / 255) * 100"></div>
+    </div>
+
+    <p>Speed: {{ pokemon.default_variety.base_stat_speed }} </p>
+    <div class="stat-bar-container">
+      <div class="stat-bar speed-bar" [style.width.%]="(pokemon.default_variety.base_stat_speed / 255) * 100"></div>
+    </div>      
+  </div>
+
+  <audio controls>
+    <source [src]="pokemon.default_variety.cry_url" type="audio/mpeg">
+  </audio>
+
+  <p>Moves :</p>
+<app-learn-move [learnMoves]="learnMoves"></app-learn-move>
+}
