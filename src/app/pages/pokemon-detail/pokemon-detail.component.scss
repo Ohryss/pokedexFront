@@ -1,0 +1,37 @@
+.stat-bar-container {
+    width: 25%;
+    background-color: #f3f3f3;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  
+  .stat-bar {
+    height: 20px;
+    border-radius: 5px;
+  }
+  
+  /* Styles spécifiques pour chaque statistique */
+  .hp-bar {
+    background-color: #4CAF50; /* Vert */
+  }
+  
+  .atk-bar {
+    background-color: #f44336; /* Rouge */
+  }
+  
+  .def-bar {
+    background-color: #00bcd4; /* Bleu clair */
+  }
+  
+  .atk-spe-bar {
+    background-color: #ff9800; /* Orange */
+  }
+  
+  .def-spe-bar {
+    background-color: #9c27b0; /* Violet */
+  }
+  
+  .speed-bar {
+    background-color: #3f51b5; /* Bleu foncé */
+  }
+  

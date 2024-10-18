@@ -1,8 +1,13 @@
-<h1 class="text-3xl font-bold underline text-rose-600">Liste des pokemons</h1>
-<section class="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
-  @for (pokemon of pokemonList?.data; track pokemon.id){
-    <a [routerLink]="['/pokemon/'+pokemon.id]">
-      <app-pokemon-card [pokemon]="pokemon"></app-pokemon-card>
-    </a>
-  }
+<h1>{{ 'pokemon_list' | transloco }}</h1> <!-- Titre de la page avec traduction -->
+
+<!-- Section qui affiche les cartes de Pokémon -->
+<section class="p-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+  <a *ngFor="let pokemon of pokemonList?.data; trackBy: trackByPokemonId" [routerLink]="['/pokemon/'+pokemon.id]">
+    <app-pokemon-card [pokemon]="pokemon"></app-pokemon-card>
+  </a>
 </section>
+
+<!-- Indicateur de chargement -->
+<div *ngIf="isLoading" class="loading-indicator">
+  Chargement en cours...
+</div>

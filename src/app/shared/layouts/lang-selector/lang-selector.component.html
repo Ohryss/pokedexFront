@@ -1,0 +1,9 @@
+<!-- Selecteur de langue
+ (change) -> commute de langue avec celle choisi dans le select
+ [(ngModel)] -> bind la valeur de la langue choisie dans le select
+ -->
+ <select class="select select-bordered w-full max-w-xs" (change)="translocoService.setActiveLang(selectedLang)" [(ngModel)]="selectedLang">
+    @for (lang of translocoService.getAvailableLangs(); track lang){
+      <option [value]="lang">{{ lang }}</option>
+    }
+  </select> 
