@@ -5,4 +5,11 @@ export interface Type {
     pivot: {
       slot: number;
     }
+    translations?: TypeTranslation[];
   }
+
+  export interface TypeTranslation {
+    locale: string;
+    name: string;
+  }
+  
