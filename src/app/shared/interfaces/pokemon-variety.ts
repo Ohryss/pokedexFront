@@ -1,4 +1,14 @@
-import {Type} from "./type"; // <- here
+import {Type} from "./type";
+
+export interface Translation {
+  id: number;
+  pokemon_variety_id: number;
+  locale: string;
+  description: string;
+  created_at: string;
+  updated_at: string;
+}
+
 
 export interface PokemonVariety {
   base_experience?: number;
@@ -28,7 +38,8 @@ export interface PokemonVariety {
     front_shiny_url?: string;
     front_url?: string;
   },
-  types?: Type[]; // <- here
+  types?: Type[];
   updated_at: string;
   weight: number;
+  translations?: Translation[];
 }
