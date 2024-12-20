@@ -1,13 +1,82 @@
-<h1>{{ 'pokemon_list' | transloco }}</h1> <!-- Titre de la page avec traduction -->
 
-<!-- Section qui affiche les cartes de Pokémon -->
-<section class="p-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-  <a *ngFor="let pokemon of pokemonList?.data; trackBy: trackByPokemonId" [routerLink]="['/pokemon/'+pokemon.id]">
+<!-- Bouton pour le menu profil -->
+<button (click)="toggleMenuPopup()">
+  <img class="w-8 absolute right-0 m-4" src="img/profilicon.png" />
+</button>
+
+<!-- Barre de recherche -->
+<div class="flex items-center w-full max-w-md mx-auto max-lg:mt-16">
+  <input
+    type="text"
+    placeholder="nom ou numéro du pokémon"
+    [(ngModel)]="searchQuery"
+    class="w-full rounded-l-full border-none bg-gray-300 text-gray-700 italic placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400 px-4 py-2"
+  />
+  <button
+    (click)="goToSearchResults()"
+    class="bg-gray-100 rounded-r-full text-gray-700 font-semibold px-6 py-2 shadow-md hover:bg-gray-200 transition duration-300"
+  >
+    🔍
+  </button>
+</div>
+
+<!-- Bouton pour ouvrir le filtre -->
+<div class="flex justify-center mt-4">
+  <button
+    (click)="toggleFilterPopup()"
+    class="bg-gray-100 text-gray-700 italic px-6 py-2 rounded-full shadow-md hover:bg-gray-200 transition duration-300"
+  >
+    Filtrer votre recherche
+  </button>
+</div>
+
+<!-- Popup de filtre -->
+<div *ngIf="showFilterPopup" class="filter-popup" (click)="onBackdropClick($event, 'filter')">
+  <div class="menu-popup-content">
+    <button (click)="toggleFilterPopup()" class="close-button">X</button>
+    <h2 class="text-3xl font-bold mb-4">Filtre</h2>
+    <form (ngSubmit)="applyFilter()">
+      <label class="block mb-2">
+        <span class="font-semibold">Type :</span>
+        <select
+          [(ngModel)]="selectedType"
+          name="type"
+          class="w-full mt-1 border border-gray-300 rounded px-2 py-1 text-black"
+        >
+          <option [value]="null">Tous</option>
+          <option *ngFor="let type of types" [value]="type.id">{{ type.name }}</option>
+        </select>
+      </label>
+      <button type="submit" class="mt-4 text-black px-4 py-2 rounded bg-white">
+        Appliquer
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- Popup du profil -->
+<div *ngIf="showMenuPopup" class="profile-popup" (click)="onBackdropClick($event, 'menu')">
+  <div class="menu-popup-content">
+    <button (click)="toggleMenuPopup()" class="close-button">X</button>
+    <h2 class="text-3xl font-bold">Menu</h2>
+    <ul>
+      <app-lang-selector class="border-2"></app-lang-selector>
+      <li><button class="text-blue-600" [routerLink]="['/profile']">Profil</button></li>
+      <li><button class="text-red-600" (click)="logout()">Se déconnecter</button></li>
+    </ul>
+  </div>
+</div>
+
+<!-- Indicateur de chargement -->
+<div *ngIf="isLoading" class="loading-indicator text-center mt-4">
+  Chargement en cours...
+</div>
+
+<!-- Liste des Pokémon -->
+<section class="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 mt-10 gap-4">
+  <a *ngFor="let pokemon of filteredPokemonList; trackBy: trackByPokemonId" 
+     [routerLink]="['/pokemon/' + pokemon.id]">
     <app-pokemon-card [pokemon]="pokemon"></app-pokemon-card>
   </a>
 </section>
 
-<!-- Indicateur de chargement -->
-<div *ngIf="isLoading" class="loading-indicator">
-  Chargement en cours...
-</div>

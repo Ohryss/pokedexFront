@@ -1,76 +1,137 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { ApiService } from '../../shared/services/api.service';
 import { Paginate } from '../../shared/interfaces/paginate';
 import { Pokemon } from '../../shared/interfaces/pokemon';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pokemon-list',
   templateUrl: './pokemon-list.component.html',
-  styleUrls: ['./pokemon-list.component.scss']  // Correction du styleUrls (pluriel)
+  styleUrls: ['./pokemon-list.component.scss']
 })
-export class PokemonListComponent {
-  
-  pokemonList?: Paginate<Pokemon>;  // Liste paginée de Pokémon
-  isLoading: boolean = false;  // Empêche plusieurs chargements en même temps
+export class PokemonListComponent implements OnInit {
+  pokemonList?: Paginate<Pokemon>;
+  filteredPokemonList: Pokemon[] = [];
+  isLoading: boolean = false;
+  showMenuPopup: boolean = false;
 
-  constructor(
-    public apiService: ApiService,
-  ) {
-    this.loadNextPokemonPage();  // Charger la première page au démarrage
+  searchQuery: string = '';
+  showFilterPopup: boolean = false; // Contrôle l'affichage de la popup
+  types: any[] = []; // Liste des types pour le filtre
+  selectedType: number | null = null; // Type sélectionné
+
+  constructor(public apiService: ApiService, private router: Router) {
+    this.loadTypes();
   }
 
-  // Fonction pour charger la page suivante des Pokémon
+  ngOnInit(): void {
+    this.loadTypes();
+    this.loadNextPokemonPage();
+  }
+
+// Charge les types disponibles
+loadTypes(): void {
+  this.apiService.requestApi('/types', 'GET').then((data: any[]) => {
+    this.types = data; // Mettre à jour les types pour le filtre
+  });
+}
+
+
+// Applique les filtres et recharge les données
+applyFilter(): void {
+  this.showFilterPopup = false; // Ferme la popup
+  this.pokemonList = undefined; // Réinitialise la liste
+  this.filteredPokemonList = []; // Réinitialise les résultats
+  this.loadFilteredPokemonPage(); // Recharge les Pokémon
+}loadFilteredPokemonPage() {
+  this.isLoading = true;
+
+  this.apiService
+    .requestApi('/pokemon', 'GET', { type: this.selectedType })
+    .then((pokemons: Paginate<Pokemon>) => {
+      this.pokemonList = pokemons;
+      this.filteredPokemonList = pokemons?.data || [];
+    })
+    .finally(() => {
+      this.isLoading = false;
+    });
+}
+
+
+
+
+
+  goToSearchResults(): void {
+    this.router.navigate(['/search-results'], { queryParams: { query: this.searchQuery } });
+  }
+
+  // Charger la page initiale ou filtrée
   loadNextPokemonPage() {
-    if (this.isLoading) return;  // Empêche le double chargement
-  
-    let page = 1;
-    if (this.pokemonList) {
-      page = this.pokemonList.current_page + 1;  // Page suivante
-    }
-  
-    // Vérifier qu'on ne dépasse pas la dernière page
-    if (!this.pokemonList || page <= this.pokemonList.last_page) {
-      this.isLoading = true;  // Indiquer que le chargement est en cours
-  
-      this.apiService.requestApi('/pokemon', 'GET', { page: page }).then((pokemons: Paginate<Pokemon>) => {
-        if (!this.pokemonList) {
-          this.pokemonList = pokemons;
-        } else {
-          let datas = this.pokemonList.data.concat(pokemons.data);
-          this.pokemonList = { ...pokemons, data: datas };
-        }
-        this.isLoading = false;  // Charger terminé
-  
-        // Vérifier si la page a besoin de plus de contenu pour pouvoir scroller
-        setTimeout(() => {
-          const contentHeight = document.documentElement.scrollHeight;
-          const viewportHeight = window.innerHeight;
-          if (contentHeight <= viewportHeight && page < (this.pokemonList?.last_page ?? 0)) {
-            this.loadNextPokemonPage();  // Charger la page suivante si nécessaire
-          }
-        }, 500);  // Attendre un court délai pour que la page se mette à jour
-      }).catch(() => {
-        this.isLoading = false;  // Désactiver en cas d'erreur
-      });
-    }
-  }
-  
+    if (this.isLoading) return;
 
-  // Écouteur de défilement avec @HostListener
+    this.isLoading = true;
+    const page = this.pokemonList ? this.pokemonList.current_page + 1 : 1;
+
+    const params: any = { page };
+    if (this.selectedType) params.type = this.selectedType; // Ajoute le filtre type s'il est sélectionné
+
+    this.apiService.requestApi('/pokemon', 'GET', params).then((pokemons: Paginate<Pokemon>) => {
+      this.pokemonList = this.pokemonList
+        ? { ...pokemons, data: this.pokemonList.data.concat(pokemons.data) }
+        : pokemons;
+      this.filteredPokemonList = this.pokemonList?.data || [];
+    }).finally(() => {
+      this.isLoading = false;
+    });
+  }
+
+  // Filtrer par type
+  onTypeFilterChange(): void {
+    this.pokemonList = undefined; // Réinitialise la liste
+    this.loadNextPokemonPage();
+  }
+
   @HostListener('window:scroll', ['$event'])
   onScroll(event: any): void {
-    // Si on est proche du bas de la page, charger la page suivante
-    const threshold = 150;  // Pixels avant d'atteindre le bas de la page
+    const threshold = 150;
     const position = window.innerHeight + window.pageYOffset;
     const height = document.body.scrollHeight;
 
     if (position >= height - threshold && !this.isLoading) {
-      this.loadNextPokemonPage();  // Charger la page suivante
+      this.loadNextPokemonPage();
     }
   }
 
-  // Fonction trackBy pour optimiser le ngFor
+  toggleMenuPopup() {
+    this.showMenuPopup = !this.showMenuPopup;
+    if (this.showMenuPopup) this.showFilterPopup = false; // Ferme l'autre popup
+  }
+  
+  toggleFilterPopup() {
+    this.showFilterPopup = !this.showFilterPopup;
+    if (this.showFilterPopup) this.showMenuPopup = false; // Ferme l'autre popup
+  }
+  
+  onBackdropClick(event: MouseEvent, popupType: string): void {
+    const target = event.target as HTMLElement;
+    if (popupType === 'menu' && target.classList.contains('profile-popup')) {
+      this.toggleMenuPopup();
+    } else if (popupType === 'filter' && target.classList.contains('filter-popup')) {
+      this.toggleFilterPopup();
+    }
+  }
+  
+
+  logout() {
+    this.apiService.logout();
+  }
+
   trackByPokemonId(index: number, pokemon: Pokemon): number {
-    return pokemon.id;  // Utiliser l'id pour suivre les changements
+    return pokemon.id;
+  }
+
+  goToProfile(): void {
+    this.toggleMenuPopup();
+    this.router.navigate(['/profile']);
   }
 }
