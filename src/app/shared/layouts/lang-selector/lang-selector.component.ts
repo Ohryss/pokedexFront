@@ -1,20 +1,23 @@
 import { Component } from '@angular/core';
-import {TranslocoService} from "@jsverse/transloco";
+import { TranslocoService } from "@jsverse/transloco";
 
 @Component({
-        selector: 'app-lang-selector',
-        templateUrl: './lang-selector.component.html',
-        styleUrl: './lang-selector.component.scss'
+  selector: 'app-lang-selector',
+  templateUrl: './lang-selector.component.html',
+  styleUrls: ['./lang-selector.component.scss']
 })
 export class LangSelectorComponent {
+  selectedLang!: string;
 
-    // La langue sélectionnée
-    selectedLang!: string;
+  constructor(public translocoService: TranslocoService) {
+    // Récupération de la langue sauvegardée ou langue par défaut
+    this.selectedLang = localStorage.getItem('lang') || this.translocoService.getActiveLang();
+    this.translocoService.setActiveLang(this.selectedLang);
+  }
 
-    constructor(
-        public translocoService: TranslocoService // Service de gestion de la traduction Transloco
-    ) {
-      // Récupération de la langue active
-      this.selectedLang = this.translocoService.getActiveLang();
-    }
+  // Méthode pour changer de langue et sauvegarder
+  changeLanguage() {
+    this.translocoService.setActiveLang(this.selectedLang);
+    localStorage.setItem('lang', this.selectedLang); 
+  }
 }
