@@ -1,65 +1,318 @@
 @if (pokemon){
-  <h1 class="flex items-center mb-6">
-    <a [routerLink]="['/']" class="btn btn-circle btn-primary mr-2"><-</a> 
-    {{pokemon.name}}
-  </h1>
+<div class="flex items-center justify-between my-5 text-2xl lg:text-4xl px-4">
+  <div class="flex items-center">
+    <a (click)="goBack()" class="btn btn-circle btn-primary mr-2" role="button">←</a>
+    <p class=" border-r-2 pr-4 border-gray-400">
+      N° {{ pokemon.id }}
+    </p>
+  </div>
 
-  <!-- Application du fond dynamique ici -->
-  <div class="flex items-center justify-center p-4 relative" [ngStyle]="{'background': getBackgroundStyle()}">
-    <img [src]="pokemon.default_variety.sprites?.artwork_url" [alt]="pokemon.name" class="w-full max-w-md">
+  <div class="flex items-center justify-center flex-grow ">
+    <a *ngIf="pokemon.id > 1" href="/pokemon/{{ pokemon.id-1 }}" class="px-4 max-sm:hidden">
+      <span>←</span>
+    </a>
+
+    <h1 class="font-bold text-xl lg:text-4xl mx-4">
+      {{ getPokemonName() }}
+    </h1>
+
+    <a *ngIf="pokemon.id < 1025" href="/pokemon/{{ pokemon.id+1 }}" class="px-4 max-sm:hidden">
+      <span>→</span>
+    </a>
+  </div>
+  <div class="text-right text-xl lg:text-2xl">
+    <span *ngIf="pokemon.is_legendary">{{ 'legendary' | transloco }}</span>
+    <span *ngIf="pokemon.is_mythical">{{ 'mythical' | transloco }}</span>
+  </div>
+</div>
+
+
+
+<div class="flex items-center justify-center p-4 relative" [ngStyle]="{'background': getBackgroundStyle()}">
+  <img
+    [src]="showShiny ? pokemon.default_variety.sprites?.artwork_shiny_url : pokemon.default_variety.sprites?.artwork_url"
+    [alt]="pokemon.name" class="w-full max-w-md">
+
+  <div class="absolute bottom-0 left-0 p-4 flex gap-2">
+    @for (type of pokemon.default_variety.types; track type.id){
+    <img [src]="type.sprite_url" [alt]="type.name" class="h-6">
+    }
+  </div>
+
+  <!-- Boutons pour audio et shiny -->
+  <div class="absolute top-0 right-0 mt-1.5 mr-1.5 flex gap-2">
+    <!-- Bouton Audio -->
+    <button class="bg-white flex justify-center items-center rounded-full w-10 h-10 icon-btn audio-btn"
+      (click)="toggleAudio()">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+        <path fill-rule="evenodd"
+          d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z"
+          clip-rule="evenodd" />
+      </svg>
+    </button>
+  </div>
+  <!-- Bouton Shiny -->
+  <div class="absolute bottom-0 right-0 mb-1.5 mr-1.5 flex gap-2">
+    <button class="bg-white flex justify-center items-center rounded-full h-10 w-10 icon-btn shiny-btn"
+      (click)="toggleShiny()">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+        <path fill-rule="evenodd"
+          d="M9 4.5a.75.75 0 0 1 .721.544l.813 2.846a3.75 3.75 0 0 0 2.576 2.576l2.846.813a.75.75 0 0 1 0 1.442l-2.846.813a3.75 3.75 0 0 0-2.576 2.576l-.813 2.846a.75.75 0 0 1-1.442 0l-.813-2.846a3.75 3.75 0 0 0-2.576-2.576l-2.846-.813a.75.75 0 0 1 0-1.442l2.846-.813A3.75 3.75 0 0 0 7.466 7.89l.813-2.846A.75.75 0 0 1 9 4.5ZM18 1.5a.75.75 0 0 1 .728.568l.258 1.036c.236.94.97 1.674 1.91 1.91l1.036.258a.75.75 0 0 1 0 1.456l-1.036.258c-.94.236-1.674.97-1.91 1.91l-.258 1.036a.75.75 0 0 1-1.456 0l-.258-1.036a2.625 2.625 0 0 0-1.91-1.91l-1.036-.258a.75.75 0 0 1 0-1.456l1.036-.258a2.625 2.625 0 0 0 1.91-1.91l.258-1.036A.75.75 0 0 1 18 1.5ZM16.5 15a.75.75 0 0 1 .712.513l.394 1.183c.15.447.5.799.948.948l1.183.395a.75.75 0 0 1 0 1.422l-1.183.395c-.447.15-.799.5-.948.948l-.395 1.183a.75.75 0 0 1-1.422 0l-.395-1.183a1.5 1.5 0 0 0-.948-.948l-1.183-.395a.75.75 0 0 1 0-1.422l1.183-.395c.447-.15.799-.5.948-.948l.395-1.183A.75.75 0 0 1 16.5 15Z"
+          clip-rule="evenodd" />
+      </svg>
+    </button>
+  </div>
+  <!-- Bouton Favori avec Pokéball -->
+<div class="absolute top-0 left-0 mt-2 ml-2">
+  <img 
+    [src]="isFavorite ? 'img/pokeball_pleine.png' : 'img/pokeball.png'" 
+    alt="Pokéball"
+    class="w-10 h-10 cursor-pointer"
+    (click)="addToFavorites()"
+  >
+</div>
+</div>
+
+
+
+
+<div class="tabs-container">
+  <div class="tabs">
+    <button *ngIf="!isDesktop" class="tab lg:w-1/3" [class.active]="activeTab === 'info'" (click)="setActiveTab('info')" >
+      {{'Informations' | transloco }}
+    </button>
+    <button class="tab lg:w-1/3" [class.active]="activeTab === 'stats'" (click)="setActiveTab('stats')" *ngIf="!isDesktop">
+      {{'Statistiques' | transloco }}
+    </button>
+    <button class="tab lg:w-1/3" [class.active]="activeTab === 'abilities'" (click)="setActiveTab('abilities')"
+      *ngIf="!isDesktop">
+      {{ 'Capacités' | transloco }}
+    </button>
+  </div>
+  
+
+
+  <!-- Contenus affichés côte à côte sur desktop -->
+  <div class="flex flex-col md:flex-row">
+    <!-- Informations -->
+    <div *ngIf="activeTab === 'info' || isDesktop" class="border-r-2 border-black p-4 lg:w-1/3">
+      <!-- <h3 class="text-2xl text-center">{{ 'Informations' | transloco }}</h3> -->
+      <div class="mt-4">
+        <h3 class="text-2xl underline">{{ getPokemonCategory() }}</h3>
+      </div>
+      <div class="mt-4">
+        <p>{{ 'description' | transloco }} : {{ getDescription() }}</p>
+      </div>
+      <div class="flex mt-4 space-x-5">
+        <p>{{ 'height' | transloco }} : {{ pokemon.default_variety.height / 10 }} m</p>
+        <p>{{ 'weight' | transloco }} : {{ pokemon.default_variety.weight / 10 }} kg</p>
+      </div>
+
+
+      <div class="evolutions mt-4">
+        <h3 class="text-2xl text-center underline">{{'Lignée évolutive'| transloco }} :</h3>
+        <div class="flex items-center justify-center space-x-4 mt-4">
+          <!-- Parcours de la chaîne d'évolution -->
+          <ng-container *ngFor="let evolution of evolutions; let i = index">
+            <!-- Pokémon -->
+            <div class="evolution-item text-center">
+              <a [routerLink]="['/pokemon', evolution.id]" class="evolution-link">
+                <img [src]="evolution.sprite_url" [alt]="evolution.name" class="">
+                <p class="text-sm mt-2">{{ evolution.name }}</p>
+              </a>
+            </div>
+            
+      
+            <!-- Flèche avec niveau -->
+            <div *ngIf="i < evolutions.length - 1" class="evolution-arrow">
+              <div class="flex flex-col items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                  <path fill-rule="evenodd"
+                    d="M11.469 2.72a.75.75 0 0 1 1.061 0l8.25 8.25a.75.75 0 0 1 0 1.06l-8.25 8.25a.75.75 0 0 1-1.061-1.06l7.22-7.22H3.75a.75.75 0 0 1 0-1.5h14.939l-7.22-7.22a.75.75 0 0 1 0-1.061z"
+                    clip-rule="evenodd" />
+                </svg>
+                <p *ngIf="evolutions[i + 1]?.min_level" class="text-xs mt-1">Niv {{ evolutions[i + 1]?.min_level }}</p>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <!-- Statistiques -->
+    <div *ngIf="activeTab === 'stats' || isDesktop" class="border-r-2 border-black p-4 flex-1">
+      <h3 class="text-2xl text-center">{{'Statistiques' | transloco }}</h3>
+      <div class="mt-4">
+        <div class="space-y-4">
+          <h3 class="text-2xl text-center underline">{{ 'StatistiquesBase' | transloco }}:</h3>
+          <!-- Stat Line -->
+          <div class="flex items-center space-x-4">
+            <p class="w-1/4">{{ 'hp' | transloco }}</p>
+            <p class="w-1/12 text-right">{{ pokemon.default_variety.base_stat_hp }}</p>
+            <div class="relative flex-1 h-4 bg-gray-200">
+              <div class="h-4 bg-green-500" [style.width.%]="(pokemon.default_variety.base_stat_hp / 255) * 100"></div>
+            </div>
+          </div>
+
+          <!-- Répéter la structure pour chaque statistique -->
+          <div class="flex items-center space-x-4">
+            <p class="w-1/4">{{ 'atk' | transloco }}</p>
+            <p class="w-1/12 text-right">{{ pokemon.default_variety.base_stat_attack }}</p>
+            <div class="relative flex-1 h-4 bg-gray-200">
+              <div class="h-4 bg-red-500" [style.width.%]="(pokemon.default_variety.base_stat_attack / 255) * 100">
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center space-x-4">
+            <p class="w-1/4">{{ 'def' | transloco }}</p>
+            <p class="w-1/12 text-right">{{ pokemon.default_variety.base_stat_defense }}</p>
+            <div class="relative flex-1 h-4 bg-gray-200">
+              <div class="h-4 bg-blue-300" [style.width.%]="(pokemon.default_variety.base_stat_defense / 255) * 100">
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center space-x-4">
+            <p class="w-1/4">{{ 'atkSpe' | transloco }}</p>
+            <p class="w-1/12 text-right">{{ pokemon.default_variety.base_stat_special_attack }}</p>
+            <div class="relative flex-1 h-4 bg-gray-200">
+              <div class="h-4 bg-orange-400"
+                [style.width.%]="(pokemon.default_variety.base_stat_special_attack / 255) * 100"></div>
+            </div>
+          </div>
+
+          <div class="flex items-center space-x-4">
+            <p class="w-1/4">{{ 'defSpe' | transloco }}</p>
+            <p class="w-1/12 text-right">{{ pokemon.default_variety.base_stat_special_defense }}</p>
+            <div class="relative flex-1 h-4 bg-gray-200">
+              <div class="h-4 bg-purple-500"
+                [style.width.%]="(pokemon.default_variety.base_stat_special_defense / 255) * 100"></div>
+            </div>
+          </div>
+
+          <div class="flex items-center space-x-4">
+            <p class="w-1/4">{{ 'speed' | transloco }}</p>
+            <p class="w-1/12 text-right">{{ pokemon.default_variety.base_stat_speed }}</p>
+            <div class="relative flex-1 h-4 bg-gray-200">
+              <div class="h-4 bg-blue-800" [style.width.%]="(pokemon.default_variety.base_stat_speed / 255) * 100">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 flex-1">
+        <h3 class="text-2xl text-center underline">{{ 'Résistances et Faiblesses' | transloco }}</h3>
+      
+        <div class="mt-4">
+          <!-- Doubles résistances -->
+          <ng-container *ngIf="weaknessesData.double_resistances?.length > 0">
+            <h4 class="text-lg font-semibold">{{ 'Doubles résistances (x0.25)' | transloco }} :</h4>
+            <div class="flex flex-wrap gap-2">
+              <img *ngFor="let type of weaknessesData.double_resistances"
+                   [src]="getTypeImageUrlByName(type)"
+                   [alt]="type"
+                   class="w-24">
+            </div>
+          </ng-container>
     
-    <div class="absolute top-0 left-0 p-4 flex flex-col gap-2">
-      @for (type of pokemon.default_variety.types; track type.id){
-        <img [src]="type.sprite_url" [alt]="type.name" class="h-6">
-      }
+          <!-- Résistances -->
+          <ng-container *ngIf="weaknessesData.resistances?.length > 0">
+            <h4 class="text-lg font-semibold mt-2">{{ 'Résistances (x0.5)' | transloco }} :</h4>
+            <div class="flex flex-wrap gap-2">
+              <img *ngFor="let type of weaknessesData.resistances"
+                   [src]="getTypeImageUrlByName(type)"
+                   [alt]="type"
+                   class="w-24">
+            </div>
+          </ng-container>
+    
+          <!-- Immunités -->
+          <ng-container *ngIf="weaknessesData.immune?.length > 0">
+            <h4 class="text-lg font-semibold mt-2">{{ 'Immunités' | transloco }} :</h4>
+            <div class="flex flex-wrap gap-2">
+              <img *ngFor="let type of weaknessesData.immune"
+                   [src]="getTypeImageUrlByName(type)"
+                   [alt]="type"
+                   class="w-24">
+            </div>
+          </ng-container>
+    
+          <!-- Faiblesses -->
+          <ng-container *ngIf="weaknessesData.weaknesses?.length > 0">
+            <h4 class="text-lg font-semibold mt-2">{{ 'Faiblesses (x2)' | transloco }} :</h4>
+            <div class="flex flex-wrap gap-2">
+              <img *ngFor="let type of weaknessesData.weaknesses"
+                   [src]="getTypeImageUrlByName(type)"
+                   [alt]="type"
+                   class=" w-24">
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- Capacités -->
+    
+    <div *ngIf="abilities && abilities.length > 0" class="p-4 lg:w-1/3">
+      <h3 class="text-xl text-center underline">{{ "Talent" | transloco }}:</h3>
+      <ul>
+        <li *ngFor="let ability of abilities" class="mt-4 text-base">
+          <h3 class="text-xl"> {{ getAbilityTranslation(ability, 'name') }} :
+            <span *ngIf="ability.is_hidden">
+            ({{ 'Talent cache' | transloco }})
+           </span>
+          </h3>
+          <p class="mt-1">{{ getAbilityTranslation(ability, 'description') }}</p>
+        </li>
+      </ul>      
+      
+      <!-- Ligne pour "Capacités de base :" et le bouton de sélection des versions -->
+      <div class="flex items-center mt-6">
+        <h2 class="text-xl">{{ 'Capacités de base' | transloco }} :</h2>
+        <select *ngIf="gameVersions.length > 0" id="game-version" [(ngModel)]="selectedGameVersion"
+          (change)="filterMoves()" class="rounded p-2 text-sm lg:text-base w-1/4 border-none bg-gray-500 ml-3">
+          <option *ngFor="let version of gameVersions" [value]="version.id">
+            {{ version.generic_name | titlecase }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Liste des mouvements -->
+      <div *ngIf="filteredMoves && filteredMoves.length > 0" class="mt-4">
+        <ul class="space-y-4">
+          <li *ngFor="let move of filteredMoves" class="flex items-center gap-4 cursor-pointer"
+            (click)="showMovePopup(move)">
+            <img [src]="getTypeImageUrl(move.move.type_id)" [alt]="'Type ' + move.move.type_id" class="w-24" />
+            <span>{{ move.move.name }} - {{ move.move.description }}</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Pop-up pour afficher les détails d'un move -->
+      <div *ngIf="selectedMove" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+        (click)="closeMovePopup()">
+        <div class="bg-white rounded shadow-lg p-6 max-w-lg" (click)="$event.stopPropagation()">
+          <button class="absolute top-2 right-2 text-2xl" (click)="closeMovePopup()">
+          </button>
+          <h2 class="text-xl">{{ selectedMove.move.name }}</h2>
+          <p>{{ 'Puissance'|transloco }} : {{ selectedMove.move.power || '-' }}</p>
+          <p>{{'Précision'| transloco }} : {{ selectedMove.move.accuracy || '-' }}</p>
+          <p>{{'PP'| transloco }} : {{ selectedMove.move.pp }}</p>
+          <p>{{'Description'| transloco }} : {{ selectedMove.move.description }}</p>
+        </div>
+      </div>
     </div>
   </div>
-
-  <div>
-    <p>Description: {{ pokemon.default_variety.description }}</p>
-  </div>
-
-  <div>
-    <p>Height: {{ pokemon.default_variety.height / 10 }} m</p>
-    <p>Weight: {{ pokemon.default_variety.weight / 10 }} kg</p>
-  </div>
-
-  <div>
-    <p>HP: {{ pokemon.default_variety.base_stat_hp }} </p>
-    <div class="stat-bar-container">
-      <div class="stat-bar hp-bar" [style.width.%]="(pokemon.default_variety.base_stat_hp / 255) * 100"></div>
-    </div>
-
-    <p>Atk: {{ pokemon.default_variety.base_stat_attack }} </p>
-    <div class="stat-bar-container">
-      <div class="stat-bar atk-bar" [style.width.%]="(pokemon.default_variety.base_stat_attack / 255) * 100"></div>
-    </div>
-
-    <p>Def: {{ pokemon.default_variety.base_stat_defense }} </p>
-    <div class="stat-bar-container">
-      <div class="stat-bar def-bar" [style.width.%]="(pokemon.default_variety.base_stat_defense / 255) * 100"></div>
-    </div>
-
-    <p>AtkSpe: {{ pokemon.default_variety.base_stat_special_attack }} </p>
-    <div class="stat-bar-container">
-      <div class="stat-bar atk-spe-bar" [style.width.%]="(pokemon.default_variety.base_stat_special_attack / 255) * 100"></div>
-    </div>
-
-    <p>DefSpe: {{ pokemon.default_variety.base_stat_special_defense }} </p>
-    <div class="stat-bar-container">
-      <div class="stat-bar def-spe-bar" [style.width.%]="(pokemon.default_variety.base_stat_special_defense / 255) * 100"></div>
-    </div>
-
-    <p>Speed: {{ pokemon.default_variety.base_stat_speed }} </p>
-    <div class="stat-bar-container">
-      <div class="stat-bar speed-bar" [style.width.%]="(pokemon.default_variety.base_stat_speed / 255) * 100"></div>
-    </div>      
-  </div>
-
-  <audio controls>
-    <source [src]="pokemon.default_variety.cry_url" type="audio/mpeg">
-  </audio>
-
-  <p>Moves :</p>
-<app-learn-move [learnMoves]="learnMoves"></app-learn-move>
+</div>
 }
+
+
+
+
+
+
+
+

@@ -1,37 +1,129 @@
-.stat-bar-container {
-    width: 25%;
-    background-color: #f3f3f3;
-    border-radius: 5px;
-    margin-bottom: 10px;
-  }
-  
-  .stat-bar {
-    height: 20px;
-    border-radius: 5px;
-  }
-  
-  /* Styles spécifiques pour chaque statistique */
-  .hp-bar {
-    background-color: #4CAF50; /* Vert */
-  }
-  
-  .atk-bar {
-    background-color: #f44336; /* Rouge */
-  }
-  
-  .def-bar {
-    background-color: #00bcd4; /* Bleu clair */
-  }
-  
-  .atk-spe-bar {
-    background-color: #ff9800; /* Orange */
-  }
-  
-  .def-spe-bar {
-    background-color: #9c27b0; /* Violet */
-  }
-  
-  .speed-bar {
-    background-color: #3f51b5; /* Bleu foncé */
-  }
-  
+ .move-popup-overlay {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background: rgba(0, 0, 0, 0.6);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   z-index: 1000;
+ }
+
+ .move-popup {
+   background: #f9f9f9;
+   padding: 20px;
+   border-radius: 10px;
+   width: 90%;
+   max-width: 400px;
+   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+   position: relative;
+ }
+
+ .close-button {
+   position: absolute;
+   top: 10px;
+   right: 10px;
+   background: none;
+   border: none;
+   font-size: 24px;
+   cursor: pointer;
+ }
+
+ .move-popup h2 {
+   margin-bottom: 10px;
+ }
+
+ .move-popup p {
+   margin: 5px 0;
+ }
+
+
+
+
+ .tab {
+   position: relative;
+   padding: 8px 12px;
+   font-size: 1rem;
+   border: none;
+   text-align: center;
+ }
+
+ .tab::after {
+   content: '';
+   position: absolute;
+   bottom: -15px;
+   left: 50%;
+   transform: translateX(-50%);
+   width: 0;
+   height: 2px;
+   background-color: transparent;
+   transition: width 0.3s ease, background-color 0.3s ease;
+ }
+
+ .tab.active::after {
+   width: 100%;
+   background-color: black;
+   margin-bottom: 15px;
+
+ }
+
+
+
+ @media (min-width: 1025px) {
+   .tabs {
+     display: flex !important;
+     justify-content: space-between;
+     gap: 5px;
+     text-align: center;
+   }
+
+   .tab-content-container {
+     flex-direction: row;
+   }
+
+   .tab-content {
+     flex: 1;
+   }
+   
+ }
+
+ @media (max-width: 768px) {
+
+   .tabs {
+     justify-content: space-between;
+     gap: 5px;
+     text-align: center;
+   }
+
+   .tab {
+     padding: 8px;
+     font-size: 0.9rem;
+     border: none;
+   }
+
+   .tab-content {
+     font-size: 0.9rem;
+     padding: 10px;
+   }
+ }
+
+ @media (max-width: 480px) {
+   .tabs {
+     justify-content: space-between;
+     gap: 5px;
+     text-align: center;
+   }
+
+ }
+
+
+
+
+
+
+ .icon-btn:hover {
+   background-color: black;
+   color: white;
+ }
