@@ -1,0 +1,62 @@
+<!-- Bouton Retour -->
+<a [routerLink]="['/']" class="absolute top-4 left-4 text-2xl font-bold text-4xl">
+    ←
+  </a>
+  
+  <!-- Section Profil Utilisateur -->
+  <div class="flex flex-col items-center justify-center mt-10">
+    <!-- Image de Profil -->
+    <div class="w-32 h-32 rounded-full border-4 border-red-300 flex items-center justify-center shadow-lg">
+      <img 
+        [src]="profilePictureUrl" 
+        [alt]="username" 
+        class="w-28 h-28 rounded-full object-cover"
+      />
+    </div>
+    <!-- Nom Utilisateur -->
+    <h1 class="mt-6 text-3xl font-bold italic">{{ username }}</h1>
+    <div class="border-t-2 w-32 mt-2 border-gray-400"></div>
+  </div>
+  
+
+<div class="flex items-center justify-center mt-4">
+    <label class="flex items-center cursor-pointer">
+        <span class="mr-2 text-lg font-semibold">Mode clair / sombre </span>
+        <!-- Checkbox cachée -->
+        <input type="checkbox" (change)="toggleTheme()" [checked]="isDarkMode" class="hidden" />
+        <!-- Switch visuel -->
+        <div class="w-12 h-6 bg-gray-300 rounded-full relative transition-colors duration-300"
+            [class.bg-gray-700]="isDarkMode">
+            <!-- Pastille qui se déplace -->
+            <div class="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-300"
+                [class.translate-x-6]="isDarkMode">
+            </div>
+        </div>
+    </label>
+</div>
+
+<!-- Liste des Pokémons Favoris -->
+<div class="mt-8 px-6 text-center">
+  <h2 class="text-xl font-semibold mb-4 italic">Liste des pokémons capturés :</h2>
+  <ul class="space-y-4 grid justify-center">
+    <li *ngFor="let pokemon of favoritePokemons" class="flex items-center gap-4 text-left">
+      <!-- Pokéball -->
+      <img src="img/pokeball_pleine.png" alt="Pokéball" class="w-6 h-6" />
+      
+      <!-- Infos du Pokémon -->
+      <div class="flex-1 flex items-center">
+        <!-- Nom du Pokémon cliquable -->
+        <a [routerLink]="['/pokemon', pokemon.id]" class="block text-lg font-semibold italic text-blue-600 hover:underline">
+          {{ pokemon.name }}
+        </a>
+        <!-- Types -->
+        <div class="flex mt-1 ml-4">
+          <div *ngFor="let type of pokemon.types" class="flex items-center px-2 py-1 text-sm">
+            <img [src]="type.spriteUrl" [alt]="type.name" class="h-4 mr-1" />
+            <span>{{ type.name }}</span>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
