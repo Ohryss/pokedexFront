@@ -12,4 +12,17 @@ export interface Pokemon {
     name: string;
     updated_at: string;
     varieties: PokemonVariety[];
+    translations: Translation[];
 }
+
+export interface Translation {
+    id: number;
+    pokemon_id: number;
+    locale: string;
+    name: string;
+    category?: string;
+    created_at: string;
+    updated_at: string;
+    description?: string;   
+  }
+  
