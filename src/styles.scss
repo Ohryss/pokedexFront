@@ -3,10 +3,30 @@
 @tailwind components;
 @tailwind utilities;
 
-.card{
-    @apply bg-white shadow-md rounded-lg p-4 border border-zinc-400 transition-colors;
+body {
+        font-family: "Courgette", cursive;
+        font-weight: 400;
+        font-style: normal;     
+}
   
-    &.clickable:hover{
-      @apply border-zinc-700 bg-zinc-300;
-    }
-  }
+
+/* Par défaut thème clair */
+:root {
+        --bg-color: #ffffff;
+        --text-color: #000000;
+      }
+      
+      /* Thème sombre */
+      .dark {
+        --bg-color: #4e4e4e;
+        --text-color: #ffffff;
+      }
+      
+      
+      /* Applique les variables sur le body */
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        transition: background-color 0.3s, color 0.3s;
+      }
+      
