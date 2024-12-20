@@ -1,1 +1,34 @@
-{}
+{
+    "pokemon_list": "寶可夢列表",
+    "description": "描述",
+    "height": "高度",
+    "weight": "重量",
+    "hp": "生命值",
+    "atk": "攻擊",
+    "def": "防禦",
+    "atkSpe": "特殊攻擊",
+    "defSpe": "特殊防禦",
+    "speed": "速度",
+    "legendary": "傳說",
+    "mythical": "幻之寶可夢",
+    "Informations": "資訊",
+    "Statistiques": "統計數據",
+    "Capacités": "能力",
+    "Capacité": "能力",
+    "Lignée évolutive": "進化系統",
+    "Capacités de base": "基礎能力",
+    "Puissance": "威力",
+    "Précision": "準確率",
+    "PP": "PP",
+    "Résistances et Faiblesses": "抗性與弱點",
+    "Doubles résistances (x0.25)": "雙重抗性 (x0.25)",
+    "Résistances (x0.5)": "抗性 (x0.5)",
+    "Immunités": "免疫",
+    "Faiblesses (x2)": "弱點 (x2)",
+    "Talent cache": "隱藏特性",
+    "Niv": "等級",
+
+
+    "Talent": "才能",
+    "StatistiquesBase": "基本統計"
+}

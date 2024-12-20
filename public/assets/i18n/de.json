@@ -1,1 +1,34 @@
-{}
+{
+"pokemon_list": "Pokémon-Liste",
+  "description": "Beschreibung",
+  "height": "Größe",
+  "weight": "Gewicht",
+  "hp": "KP",
+  "atk": "Angriff",
+  "def": "Verteidigung",
+  "atkSpe": "Spezial-Angriff",
+  "defSpe": "Spezial-Verteidigung",
+  "speed": "Initiative",
+  "legendary": "Legendär",
+  "mythical": "Mystisch",
+  "Informations": "Informationen",
+  "Statistiques": "Statistiken",
+  "Capacités": "Fähigkeiten",
+  "Capacité": "Fähigkeit",
+  "Lignée évolutive": "Entwicklungslinie",
+  "Capacités de base": "Grundfähigkeiten",
+  "Puissance": "Stärke",
+  "Précision": "Genauigkeit",
+  "PP": "AP",
+  "Résistances et Faiblesses": "Resistenzen und Schwächen",
+  "Doubles résistances (x0.25)": "Doppelte Resistenzen (x0,25)",
+  "Résistances (x0.5)": "Resistenzen (x0,5)",
+  "Immunités": "Immunitäten",
+  "Faiblesses (x2)": "Schwächen (x2)",
+  "Talent cache": "Versteckte Fähigkeit",
+  "Niv": "Stufe",
+
+
+  "Talent": "Talent",
+  "StatistiquesBase": "Basisstatistiken"
+}

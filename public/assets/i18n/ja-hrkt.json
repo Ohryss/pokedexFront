@@ -1,1 +1,34 @@
-{}
+{
+    "pokemon_list": "ポケモンリスト",
+  "description": "説明",
+  "height": "高さ",
+  "weight": "重さ",
+  "hp": "HP",
+  "atk": "攻撃",
+  "def": "防御",
+  "atkSpe": "特別攻撃",
+  "defSpe": "特別防御",
+  "speed": "速度",
+  "legendary": "伝説の",
+  "mythical": "神話の",
+  "Informations": "情報",
+  "Statistiques": "統計",
+  "Capacités": "能力",
+  "Capacité": "能力",
+  "Lignée évolutive": "進化系統",
+  "Capacités de base": "基本能力",
+  "Puissance": "力",
+  "Précision": "精度",
+  "PP": "PP",
+  "Résistances et Faiblesses": "耐性と弱点",
+  "Doubles résistances (x0.25)": "二重耐性 (x0.25)",
+  "Résistances (x0.5)": "耐性 (x0.5)",
+  "Immunités": "免疫",
+  "Faiblesses (x2)": "弱点 (x2)",
+  "Talent cache": "隠れた能力",
+  "Niv": "レベル",
+
+
+  "Talent": "さいのう",
+  "StatistiquesBase": "基本統計"
+}

@@ -1,1 +1,34 @@
-{}
+{
+    "pokemon_list": "포켓몬 목록",
+    "description": "설명",
+    "height": "높이",
+    "weight": "무게",
+    "hp": "HP",
+    "atk": "공격",
+    "def": "방어",
+    "atkSpe": "특수 공격",
+    "defSpe": "특수 방어",
+    "speed": "속도",
+    "legendary": "전설의",
+    "mythical": "신화의",
+    "Informations": "정보",
+    "Statistiques": "통계",
+    "Capacités": "능력",
+    "Capacité": "능력",
+    "Lignée évolutive": "진화 계통",
+    "Capacités de base": "기본 능력",
+    "Puissance": "힘",
+    "Précision": "정확도",
+    "PP": "PP",
+    "Résistances et Faiblesses": "저항과 약점",
+    "Doubles résistances (x0.25)": "이중 저항 (x0.25)",
+    "Résistances (x0.5)": "저항 (x0.5)",
+    "Immunités": "면역",
+    "Faiblesses (x2)": "약점 (x2)",
+    "Talent cache": "숨겨진 능력",
+    "Niv": "레벨",
+
+
+    "Talent": "재능",
+    "StatistiquesBase": "기본 통계"
+}

@@ -1,1 +1,34 @@
-{}
+{
+"pokemon_list": "Pokemon Risuto",
+  "description": "Setsumei",
+  "height": "Takasa",
+  "weight": "Omosa",
+  "hp": "HP",
+  "atk": "Kōgeki",
+  "def": "Bōgyo",
+  "atkSpe": "Tokubetsu Kōgeki",
+  "defSpe": "Tokubetsu Bōgyo",
+  "speed": "Sokudo",
+  "legendary": "Densetsu no",
+  "mythical": "Shinwa no",
+  "Informations": "Jōhō",
+  "Statistiques": "Tōkei",
+  "Capacités": "Nōryoku",
+  "Capacité": "Nōryoku",
+  "Lignée évolutive": "Shinka Keitō",
+  "Capacités de base": "Kihon Nōryoku",
+  "Puissance": "Chikara",
+  "Précision": "Seido",
+  "PP": "PP",
+  "Résistances et Faiblesses": "Taisei to Jakuten",
+  "Doubles résistances (x0.25)": "Nijū Taisei (x0.25)",
+  "Résistances (x0.5)": "Taisei (x0.5)",
+  "Immunités": "Men'eki",
+  "Faiblesses (x2)": "Jakuten (x2)",
+  "Talent cache": "Kakureta Nōryoku",
+  "Niv": "Reberu",
+
+
+  "Talent": "Sainō",
+  "StatistiquesBase": "きほんとうけい"
+}

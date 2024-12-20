@@ -1,1 +1,34 @@
-{}
+{
+"pokemon_list": "Lista de Pokémon",
+  "description": "Descripción",
+  "height": "Altura",
+  "weight": "Peso",
+  "hp": "PS",
+  "atk": "Ataque",
+  "def": "Defensa",
+  "atkSpe": "Ataque Especial",
+  "defSpe": "Defensa Especial",
+  "speed": "Velocidad",
+  "legendary": "Legendario",
+  "mythical": "Mítico",
+  "Informations": "Información",
+  "Statistiques": "Estadísticas",
+  "Capacités": "Habilidades",
+  "Capacité": "Habilidad",
+  "Lignée évolutive": "Línea evolutiva",
+  "Capacités de base": "Habilidades básicas",
+  "Puissance": "Potencia",
+  "Précision": "Precisión",
+  "PP": "PP",
+  "Résistances et Faiblesses": "Resistencias y debilidades",
+  "Doubles résistances (x0.25)": "Resistencias dobles (x0.25)",
+  "Résistances (x0.5)": "Resistencias (x0.5)",
+  "Immunités": "Inmunidades",
+  "Faiblesses (x2)": "Debilidades (x2)",
+  "Talent cache": "Habilidad oculta",
+  "Niv": "Nivel",
+
+
+  "Talent": "Talento",
+  "StatistiquesBase": "Estadísticas básicas"
+}

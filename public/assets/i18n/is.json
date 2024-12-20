@@ -1,1 +1,34 @@
-{}
+{
+    "pokemon_list": "Listi yfir Pokémon",
+    "description": "Lýsing",
+    "height": "Hæð",
+    "weight": "Þyngd",
+    "hp": "Heilsa",
+    "atk": "Árás",
+    "def": "Vörn",
+    "atkSpe": "Sérstök árás",
+    "defSpe": "Sérstök vörn",
+    "speed": "Hraði",
+    "legendary": "Goðsagnakenndur",
+    "mythical": "Goðsagnakenndur",
+    "Informations": "Upplýsingar",
+    "Statistiques": "Tölfræði",
+    "Capacités": "Hæfileikar",
+    "Capacité": "Hæfileiki",
+    "Lignée évolutive": "Þróunarlína",
+    "Capacités de base": "Grunnhæfileikar",
+    "Puissance": "Kraftur",
+    "Précision": "Nákvæmni",
+    "PP": "PP",
+    "Résistances et Faiblesses": "Mótstaða og veikleikar",
+    "Doubles résistances (x0.25)": "Tvöföld mótstaða (x0,25)",
+    "Résistances (x0.5)": "Mótstaða (x0,5)",
+    "Immunités": "Ónæmi",
+    "Faiblesses (x2)": "Veikleikar (x2)",
+    "Talent cache": "Falinn hæfileiki",
+    "Niv": "Stig",
+
+
+    "Talent": "Hæfileiki",
+    "StatistiquesBase": "Grunn tölfræði"
+}
